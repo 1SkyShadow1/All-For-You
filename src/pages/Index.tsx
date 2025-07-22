@@ -7,6 +7,10 @@ import FeaturedProducts from '../components/FeaturedProducts';
 import ParallaxSection from '../components/ParallaxSection';
 import Footer from '../components/Footer';
 import BlobCursor from '../components/animations/BlobCursor';
+import SplashCursor from '../components/animations/SplashCursor';
+import TargetCursor from '../components/animations/TargetCursor';
+import ClickSpark from '../components/animations/ClickSpark';
+import Dock from '../components/ui/Dock';
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -36,10 +40,13 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-premium-black">
       <BlobCursor />
+      <SplashCursor />
+      <ClickSpark />
       <Navigation />
       <Hero />
       <FeaturedProducts />
       <ParallaxSection />
+      <Dock />
       <Footer />
     </div>
   );

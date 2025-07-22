@@ -13,130 +13,47 @@ export const useProductImages = () => {
   const [products, setProducts] = useState<ProductImage[]>([]);
 
   useEffect(() => {
-    // Map the actual images from the root directory to products
-    const imageProducts: ProductImage[] = [
-      {
-        id: 1,
-        name: "Premium Custom T-Shirt",
-        image: "/IMG-20250618-WA0040.jpg",
-        category: "clothing",
-        price: 299.99,
-        description: "High-quality custom t-shirt with premium materials"
-      },
-      {
-        id: 2,
-        name: "Designer Hoodie",
-        image: "/IMG-20250618-WA0041.jpg",
-        category: "clothing",
-        price: 599.99,
-        description: "Comfortable designer hoodie for all seasons"
-      },
-      {
-        id: 3,
-        name: "Artisan Coffee Mug",
-        image: "/IMG-20250618-WA0042.jpg",
-        category: "accessories",
-        price: 149.99,
-        description: "Handcrafted ceramic mug for coffee lovers"
-      },
-      {
-        id: 4,
-        name: "Custom Baseball Cap",
-        image: "/IMG-20250618-WA0043.jpg",
-        category: "accessories",
-        price: 199.99,
-        description: "Stylish baseball cap with custom embroidery"
-      },
-      {
-        id: 5,
-        name: "Luxury Watch",
-        image: "/IMG-20250618-WA0044.jpg",
-        category: "accessories",
-        price: 1299.99,
-        description: "Premium timepiece with elegant design"
-      },
-      {
-        id: 6,
-        name: "Designer Jacket",
-        image: "/IMG-20250618-WA0045.jpg",
-        category: "clothing",
-        price: 899.99,
-        description: "Fashionable jacket for modern lifestyle"
-      },
-      {
-        id: 7,
-        name: "Handcrafted Cutting Board",
-        image: "/IMG-20250618-WA0046.jpg",
-        category: "home",
-        price: 499.99,
-        description: "Premium wooden cutting board for kitchen"
-      },
-      {
-        id: 8,
-        name: "Original Abstract Art",
-        image: "/IMG-20250618-WA0047.jpg",
-        category: "art",
-        price: 899.99,
-        description: "Unique abstract artwork for home decoration"
-      },
-      {
-        id: 9,
-        name: "Premium Sneakers",
-        image: "/IMG-20250618-WA0048.jpg",
-        category: "footwear",
-        price: 799.99,
-        description: "Comfortable and stylish premium sneakers"
-      },
-      {
-        id: 10,
-        name: "Leather Wallet",
-        image: "/IMG-20250618-WA0049.jpg",
-        category: "accessories",
-        price: 249.99,
-        description: "Genuine leather wallet with multiple compartments"
-      },
-      {
-        id: 11,
-        name: "Wireless Headphones",
-        image: "/IMG-20250618-WA0050.jpg",
-        category: "electronics",
-        price: 399.99,
-        description: "High-quality wireless headphones with noise cancellation"
-      },
-      {
-        id: 12,
-        name: "Designer Sunglasses",
-        image: "/IMG-20250618-WA0051.jpg",
-        category: "accessories",
-        price: 349.99,
-        description: "Stylish sunglasses with UV protection"
-      },
-      {
-        id: 13,
-        name: "Custom Phone Case",
-        image: "/IMG-20250618-WA0052.jpg",
-        category: "electronics",
-        price: 79.99,
-        description: "Protective phone case with custom design"
-      },
-      {
-        id: 14,
-        name: "Premium Backpack",
-        image: "/IMG-20250618-WA0053.jpg",
-        category: "accessories",
-        price: 449.99,
-        description: "Durable backpack for travel and daily use"
-      },
-      {
-        id: 15,
-        name: "Artisan Jewelry",
-        image: "/IMG-20250618-WA0054.jpg",
-        category: "jewelry",
-        price: 599.99,
-        description: "Handcrafted jewelry with unique design"
-      }
+    // Generate products from all available images in root directory
+    const imageProducts: ProductImage[] = [];
+    
+    // Product categories and names for variety
+    const categories = ['clothing', 'accessories', 'home', 'art', 'electronics', 'jewelry', 'footwear'];
+    const productTypes = [
+      'Premium Custom T-Shirt', 'Designer Hoodie', 'Artisan Coffee Mug', 'Custom Baseball Cap',
+      'Luxury Watch', 'Designer Jacket', 'Handcrafted Cutting Board', 'Original Abstract Art',
+      'Premium Sneakers', 'Leather Wallet', 'Wireless Headphones', 'Designer Sunglasses',
+      'Custom Phone Case', 'Premium Backpack', 'Artisan Jewelry', 'Vintage Poster',
+      'Ceramic Vase', 'Wooden Sculpture', 'Metal Wall Art', 'Glass Ornament',
+      'Fabric Cushion', 'Leather Bag', 'Crystal Pendant', 'Bamboo Utensils',
+      'Stone Coaster', 'Silk Scarf', 'Bronze Figurine', 'Porcelain Plate',
+      'Canvas Print', 'Wooden Frame', 'Metal Bookmark', 'Glass Paperweight',
+      'Fabric Notebook', 'Leather Journal', 'Crystal Keychain', 'Bamboo Phone Stand',
+      'Stone Paperweight', 'Silk Tie', 'Bronze Medal', 'Porcelain Cup',
+      'Canvas Bag', 'Wooden Box', 'Metal Pin', 'Glass Bottle',
+      'Fabric Pillow', 'Leather Belt', 'Crystal Necklace', 'Bamboo Cutting Board',
+      'Stone Sculpture', 'Silk Dress', 'Bronze Statue', 'Porcelain Vase',
+      'Canvas Painting', 'Wooden Clock', 'Metal Sign', 'Glass Ornament',
+      'Fabric Blanket', 'Leather Shoes', 'Crystal Ring', 'Bamboo Lamp',
+      'Stone Tile', 'Silk Blouse', 'Bronze Coin', 'Porcelain Bowl',
+      'Canvas Tote', 'Wooden Spoon', 'Metal Charm', 'Glass Candle',
+      'Fabric Curtain', 'Leather Gloves', 'Crystal Earrings', 'Bamboo Tray',
+      'Stone Pendant', 'Silk Scarf', 'Bronze Trophy', 'Porcelain Mug'
     ];
 
+    // Generate products for images 40-115
+    for (let i = 40; i <= 115; i++) {
+      const productIndex = i - 40;
+      if (productIndex < productTypes.length) {
+        imageProducts.push({
+          id: i,
+          name: productTypes[productIndex],
+          image: `/IMG-20250618-WA${String(i).padStart(4, '0')}.jpg`,
+          category: categories[productIndex % categories.length],
+          price: Math.round((Math.random() * 1000 + 50) * 100) / 100,
+          description: `Premium quality ${productTypes[productIndex].toLowerCase()} crafted with attention to detail`
+        });
+      }
+    }
     setProducts(imageProducts);
   }, []);
 
