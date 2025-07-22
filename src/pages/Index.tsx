@@ -6,6 +6,7 @@ import Hero from '../components/Hero';
 import FeaturedProducts from '../components/FeaturedProducts';
 import ParallaxSection from '../components/ParallaxSection';
 import Footer from '../components/Footer';
+import BlobCursor from '../components/animations/BlobCursor';
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -34,6 +35,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-premium-black">
+      <BlobCursor />
       <Navigation />
       <Hero />
       <FeaturedProducts />

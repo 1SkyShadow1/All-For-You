@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { Search, ShoppingCart, Menu, X, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Cart from './Cart';
+import GradientText from './animations/GradientText';
+import MagnetButton from './animations/MagnetButton';
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -40,7 +42,7 @@ const Navigation = () => {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link to="/" className="text-2xl md:text-3xl font-bold gold-foil">
-              All for you
+              <GradientText text="All for you" />
             </Link>
 
             {/* Desktop Navigation */}
@@ -59,20 +61,21 @@ const Navigation = () => {
             {/* Right Section */}
             <div className="flex items-center space-x-4">
               {/* Search */}
-              <button className="p-2 text-gold-300 hover:text-gold-400 transition-colors">
+              <MagnetButton className="p-2 text-gold-300 hover:text-gold-400 transition-colors">
                 <Search size={20} />
-              </button>
+              </MagnetButton>
 
               {/* Profile */}
-              <Link 
+              <MagnetButton className="p-2 text-gold-300 hover:text-gold-400 transition-colors">
+                <Link 
                 to="/profile"
-                className="p-2 text-gold-300 hover:text-gold-400 transition-colors"
               >
-                <User size={20} />
-              </Link>
+                  <User size={20} />
+                </Link>
+              </MagnetButton>
 
               {/* Cart */}
-              <button 
+              <MagnetButton 
                 onClick={() => setIsCartOpen(true)}
                 className="relative p-2 text-gold-300 hover:text-gold-400 transition-colors"
               >
@@ -82,7 +85,7 @@ const Navigation = () => {
                     {cartCount}
                   </span>
                 )}
-              </button>
+              </MagnetButton>
 
               {/* Mobile Menu Toggle */}
               <button

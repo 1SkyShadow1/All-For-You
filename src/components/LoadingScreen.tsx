@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from 'react';
+import GradientText from './animations/GradientText';
 
 interface LoadingScreenProps {
   onComplete: () => void;
@@ -64,9 +65,13 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           <div
             className={`text-6xl md:text-8xl font-bold transition-all duration-1000 ${
               showLogo ? 'opacity-100 scale-100' : 'opacity-0 scale-50'
-            } ${logoEffect ? 'gold-foil text-shadow-gold' : 'text-gold-400'}`}
+            }`}
           >
-            All for you
+            {logoEffect ? (
+              <GradientText text="All for you" className="text-shadow-gold" />
+            ) : (
+              <span className="text-gold-400">All for you</span>
+            )}
           </div>
           
           {/* Subtitle */}

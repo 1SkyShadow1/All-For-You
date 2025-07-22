@@ -1,6 +1,13 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import SplitText from './animations/SplitText';
+import BlurText from './animations/BlurText';
+import ShinyText from './animations/ShinyText';
+import GradientText from './animations/GradientText';
+import MagnetButton from './animations/MagnetButton';
+import Aurora from './backgrounds/Aurora';
+import DotGrid from './backgrounds/DotGrid';
 
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -28,6 +35,9 @@ const Hero = () => {
 
   return (
     <section className="relative h-screen flex items-center overflow-hidden">
+      <Aurora />
+      <DotGrid className="opacity-20" />
+      
       {/* Background Slides */}
       {slides.map((slide, index) => (
         <div
@@ -50,24 +60,32 @@ const Hero = () => {
         <div className="max-w-2xl">
           <div className="animate-fade-in-up">
             <h2 className="text-gold-400 text-lg md:text-xl font-medium mb-4 animate-delay-1">
-              {slides[currentSlide].subtitle}
+              <BlurText text={slides[currentSlide].subtitle} delay={500} />
             </h2>
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white leading-tight animate-delay-2">
-              {slides[currentSlide].title}
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight animate-delay-2">
+              <SplitText 
+                text={slides[currentSlide].title} 
+                className="text-white"
+                delay={0.8}
+                stagger={0.1}
+              />
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 mb-8 animate-delay-3">
-              {slides[currentSlide].description}
+              <BlurText text={slides[currentSlide].description} delay={1500} />
             </p>
             <div className="flex flex-col sm:flex-row gap-4 animate-delay-4">
-              <a href="#shop" className="btn-gold">
-                Explore Collection
-              </a>
-              <Link 
+              <MagnetButton className="btn-gold">
+                <a href="#shop">
+                  <ShinyText text="Explore Collection" />
+                </a>
+              </MagnetButton>
+              <MagnetButton className="border-2 border-gold-400 text-gold-400 px-6 py-3 rounded-lg font-semibold hover:bg-gold-400 hover:text-premium-black transition-all duration-300 text-center">
+                <Link 
                 to="/custom-design"
-                className="border-2 border-gold-400 text-gold-400 px-6 py-3 rounded-lg font-semibold hover:bg-gold-400 hover:text-premium-black transition-all duration-300 text-center"
               >
-                Custom Orders
-              </Link>
+                  <GradientText text="Custom Orders" />
+                </Link>
+              </MagnetButton>
             </div>
           </div>
         </div>

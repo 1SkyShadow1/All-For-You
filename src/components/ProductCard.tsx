@@ -1,3 +1,5 @@
+import GlareHover from './animations/GlareHover';
+import MagnetButton from './animations/MagnetButton';
 
 interface ProductCardProps {
   id: number;
@@ -34,7 +36,7 @@ const ProductCard = ({
   };
 
   return (
-    <div className="product-card group cursor-pointer">
+    <GlareHover className="product-card group cursor-pointer h-full">
       {/* Image Container */}
       <div className="relative overflow-hidden rounded-lg mb-4">
         {isNew && (
@@ -51,13 +53,13 @@ const ProductCard = ({
         
         {/* Quick Actions */}
         <div className="absolute bottom-4 left-4 right-4 transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-          <button
+          <MagnetButton
             data-product-id={id}
             onClick={handleAddToCart}
             className="w-full btn-gold text-sm py-2"
           >
             Add to Cart
-          </button>
+          </MagnetButton>
         </div>
       </div>
 
@@ -80,7 +82,7 @@ const ProductCard = ({
           )}
         </div>
       </div>
-    </div>
+    </GlareHover>
   );
 };
 

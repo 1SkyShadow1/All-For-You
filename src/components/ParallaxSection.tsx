@@ -1,5 +1,8 @@
 
 import { useEffect, useRef } from 'react';
+import CountUp from './animations/CountUp';
+import GradientText from './animations/GradientText';
+import DotGrid from './backgrounds/DotGrid';
 
 const ParallaxSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -35,9 +38,10 @@ const ParallaxSection = () => {
       
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 text-center">
+        <DotGrid className="opacity-10" />
         <div className="max-w-4xl mx-auto">
           <h2 className="text-5xl md:text-7xl font-bold mb-6 gold-foil animate-float">
-            Crafted with Passion
+            <GradientText text="Crafted with Passion" />
           </h2>
           <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
             Every piece in our collection tells a story. From custom designs to artisan crafts, 
@@ -47,15 +51,21 @@ const ParallaxSection = () => {
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
             <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold gold-foil mb-2">10K+</div>
+              <div className="text-4xl md:text-5xl font-bold gold-foil mb-2">
+                <CountUp end={10000} suffix="+" />
+              </div>
               <div className="text-gray-300">Happy Customers</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold gold-foil mb-2">500+</div>
+              <div className="text-4xl md:text-5xl font-bold gold-foil mb-2">
+                <CountUp end={500} suffix="+" />
+              </div>
               <div className="text-gray-300">Custom Designs</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold gold-foil mb-2">5★</div>
+              <div className="text-4xl md:text-5xl font-bold gold-foil mb-2">
+                <CountUp end={5} suffix="★" />
+              </div>
               <div className="text-gray-300">Average Rating</div>
             </div>
           </div>

@@ -2,9 +2,16 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from './ProductCard';
+import { useProductImages } from '../hooks/useProductImages';
+import SpotlightCard from './ui/SpotlightCard';
+import MagicBento from './ui/MagicBento';
+import AnimatedList from './ui/AnimatedList';
+import CountUp from './animations/CountUp';
+import GradientText from './animations/GradientText';
 
 const FeaturedProducts = () => {
   const [activeCategory, setActiveCategory] = useState('all');
+  const { products: imageProducts } = useProductImages();
 
   const categories = [
     { id: 'all', label: 'All Products' },
@@ -14,54 +21,12 @@ const FeaturedProducts = () => {
     { id: 'art', label: 'Art & Design' }
   ];
 
-  const products = [
-    {
-      id: 1,
-      name: "Premium Custom T-Shirt",
-      price: 299.99,
-      originalPrice: 399.99,
-      image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&q=80",
-      category: "clothing",
-      isNew: true
-    },
-    {
-      id: 2,
-      name: "Artisan Coffee Mug",
-      price: 149.99,
-      image: "https://images.unsplash.com/photo-1514228742587-6b1558fcf93a?w=500&q=80",
-      category: "accessories"
-    },
-    {
-      id: 3,
-      name: "Handcrafted Cutting Board",
-      price: 499.99,
-      image: "https://images.unsplash.com/photo-1594736797933-d0d96b3dd2b3?w=500&q=80",
-      category: "home"
-    },
-    {
-      id: 4,
-      name: "Custom Baseball Cap",
-      price: 199.99,
-      image: "https://images.unsplash.com/photo-1521369909029-2afed882baee?w=500&q=80",
-      category: "accessories",
-      isNew: true
-    },
-    {
-      id: 5,
-      name: "Original Abstract Art",
-      price: 899.99,
-      image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&q=80",
-      category: "art"
-    },
-    {
-      id: 6,
-      name: "Designer Hoodie",
-      price: 599.99,
-      originalPrice: 699.99,
-      image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500&q=80",
-      category: "clothing"
-    }
-  ];
+  // Use the actual product images from the hook
+  const products = imageProducts.slice(0, 12).map(product => ({
+    ...product,
+    originalPrice: Math.random() > 0.5 ? product.price * 1.3 : undefined,
+    isNew: Math.random() > 0.7
+  }));
 
   const filteredProducts = activeCategory === 'all' 
     ? products 
@@ -78,11 +43,33 @@ const FeaturedProducts = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 gold-foil">
-            Featured Collection
+            <GradientText text="Featured Collection" />
           </h2>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
             Discover our handpicked selection of premium products, each crafted with attention to detail and designed to elevate your lifestyle.
           </p>
+          
+          {/* Stats */}
+          <div className="flex justify-center space-x-8 mt-8">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-gold-400">
+                <CountUp end={500} suffix="+" />
+              </div>
+              <div className="text-gray-400 text-sm">Products</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-gold-400">
+                <CountUp end={10000} suffix="+" />
+              </div>
+              <div className="text-gray-400 text-sm">Happy Customers</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-gold-400">
+                <CountUp end={99} suffix="%" />
+              </div>
+              <div className="text-gray-400 text-sm">Satisfaction</div>
+            </div>
+          </div>
         </div>
 
         {/* Category Filter */}
@@ -103,21 +90,26 @@ const FeaturedProducts = () => {
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProducts.map((product, index) => (
-            <Link
-              key={product.id}
-              to={`/product/${product.id}`}
-              className="animate-fade-in-up block"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <ProductCard
-                {...product}
-                onAddToCart={handleAddToCart}
-              />
-            </Link>
-          ))}
-        </div>
+        <AnimatedList
+          items={filteredProducts.map((product, index) => ({
+            id: product.id.toString(),
+            content: (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                {filteredProducts.slice(index, index + 4).map((prod) => (
+                  <SpotlightCard key={prod.id} className="h-full">
+                    <Link to={`/product/${prod.id}`} className="block h-full">
+                      <ProductCard
+                        {...prod}
+                        onAddToCart={handleAddToCart}
+                      />
+                    </Link>
+                  </SpotlightCard>
+                ))}
+              </div>
+            )
+          }))}
+          stagger={0.2}
+        />
 
         {/* View All Button */}
         <div className="text-center mt-16">
