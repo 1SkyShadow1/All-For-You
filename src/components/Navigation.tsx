@@ -1,8 +1,8 @@
-
 import { useState, useEffect } from 'react';
 import { Search, ShoppingCart, Menu, X, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Cart from './Cart';
+import SearchModal from './SearchModal';
 import GradientText from './animations/GradientText';
 import MagnetButton from './animations/MagnetButton';
 
@@ -10,6 +10,7 @@ const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [cartCount] = useState(3);
 
   useEffect(() => {
@@ -22,11 +23,11 @@ const Navigation = () => {
   }, []);
 
   const navItems = [
-    { label: 'Shop', href: '/#shop' },
-    { label: 'Collections', href: '#collections' },
+    { label: 'Shop', href: '/shop' },
+    { label: 'Collections', href: '/collections' },
     { label: 'Custom Orders', href: '/custom-design' },
-    { label: 'About', href: '#about' },
-    { label: 'Contact', href: '#contact' }
+    { label: 'About', href: '/about' },
+    { label: 'Contact', href: '/contact' }
   ];
 
   return (
@@ -48,28 +49,39 @@ const Navigation = () => {
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-8">
               {navItems.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="nav-link text-sm font-medium tracking-wide"
-                >
-                  {item.label}
-                </a>
+                item.href.startsWith('/') ? (
+                  <Link
+                    key={item.label}
+                    to={item.href}
+                    className="nav-link text-sm font-medium tracking-wide"
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    className="nav-link text-sm font-medium tracking-wide"
+                  >
+                    {item.label}
+                  </a>
+                )
               ))}
             </div>
 
             {/* Right Section */}
             <div className="flex items-center space-x-4">
               {/* Search */}
-              <MagnetButton className="p-2 text-gold-300 hover:text-gold-400 transition-colors">
+              <MagnetButton 
+                onClick={() => setIsSearchOpen(true)}
+                className="p-2 text-gold-300 hover:text-gold-400 transition-colors"
+              >
                 <Search size={20} />
               </MagnetButton>
 
               {/* Profile */}
               <MagnetButton className="p-2 text-gold-300 hover:text-gold-400 transition-colors">
-                <Link 
-                to="/profile"
-              >
+                <Link to="/profile">
                   <User size={20} />
                 </Link>
               </MagnetButton>
@@ -107,14 +119,25 @@ const Navigation = () => {
           >
             <div className="glass-morphism rounded-lg p-4 space-y-3">
               {navItems.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="block nav-link text-sm font-medium tracking-wide py-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item.label}
-                </a>
+                item.href.startsWith('/') ? (
+                  <Link
+                    key={item.label}
+                    to={item.href}
+                    className="block nav-link text-sm font-medium tracking-wide py-2"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    className="block nav-link text-sm font-medium tracking-wide py-2"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item.label}
+                  </a>
+                )
               ))}
             </div>
           </div>
@@ -123,6 +146,9 @@ const Navigation = () => {
 
       {/* Cart Component */}
       <Cart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      
+      {/* Search Modal */}
+      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </>
   );
 };

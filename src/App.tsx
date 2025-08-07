@@ -10,6 +10,10 @@ import Index from "./pages/Index";
 import ProductDetail from "./pages/ProductDetail";
 import CustomDesign from "./pages/CustomDesign";
 import Profile from "./pages/Profile";
+import Shop from "./pages/Shop";
+import Collections from "./pages/Collections";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import AdminDashboard from "./pages/AdminDashboard";
 
@@ -26,9 +30,13 @@ const App = () => (
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Index />} />
+                <Route path="/shop" element={<Shop />} />
                 <Route path="/product/:id" element={<ProductDetail />} />
                 <Route path="/custom-design" element={<CustomDesign />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/collections" element={<Collections />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
                 <Route path="/admin" element={<AdminDashboard />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />

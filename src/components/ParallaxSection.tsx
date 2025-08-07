@@ -29,7 +29,7 @@ const ParallaxSection = () => {
         ref={sectionRef}
         className="absolute inset-0 w-full h-120 bg-cover bg-center"
         style={{
-          backgroundImage: 'url("https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1600&q=80")',
+          backgroundImage: 'url("/products/hero-1.jpg")',
         }}
       />
       

@@ -7,11 +7,13 @@ import InventoryCountdown from '../components/InventoryCountdown';
 import LuxuryNotifications from '../components/LuxuryNotifications';
 import ProductComparison from '../components/ProductComparison';
 import { useWishlist } from '../contexts/WishlistContext';
+import { useAdmin } from '../contexts/AdminContext';
 
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+  const { products } = useAdmin();
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState('M');
   const [selectedColor, setSelectedColor] = useState('black');
@@ -24,39 +26,36 @@ const ProductDetail = () => {
   const [showComparison, setShowComparison] = useState(false);
   const [viewerCount, setViewerCount] = useState(8);
 
-  // Mock product data - in real app, fetch based on ID
-  const product = {
-    id: 1,
-    name: "Premium Custom T-Shirt",
-    price: 299.99,
-    originalPrice: 399.99,
-    rating: 4.8,
-    reviews: 124,
-    stock: 7,
-    images: [
-      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80",
-      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=600&q=80",
-      "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=600&q=80"
-    ],
-    colors: ['black', 'white', 'gold'],
-    sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-    inStock: true,
-    description: "Experience luxury with our premium custom t-shirt. Made from 100% organic cotton with gold thread accents, this shirt represents the pinnacle of comfort and style.",
-    features: [
-      "100% Organic Cotton",
-      "Gold Thread Accents", 
-      "Custom Design Ready",
-      "Pre-shrunk Fabric",
-      "Reinforced Seams"
-    ]
-  };
+  // Find the product by ID from AdminContext
+  const product = products.find(p => p.id === parseInt(id || '0'));
+  
+  // If product not found, redirect or show error
+  if (!product) {
+    return (
+      <div className="min-h-screen bg-premium-black flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl text-white mb-4">Product not found</h1>
+          <button 
+            onClick={() => navigate('/')}
+            className="btn-gold"
+          >
+            Back to Shop
+          </button>
+        </div>
+      </div>
+    );
+  }
 
-  // Mock comparison products
-  const comparisonProducts = [
-    { id: 1, name: "Premium Custom T-Shirt", price: 299.99, image: product.images[0], rating: 4.8, features: product.features },
-    { id: 2, name: "Designer Hoodie", price: 599.99, image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=200&q=80", rating: 4.6, features: ["Cotton Blend", "Lined Hood", "Kangaroo Pocket"] },
-    { id: 3, name: "Custom Baseball Cap", price: 199.99, image: "https://images.unsplash.com/photo-1521369909029-2afed882baee?w=200&q=80", rating: 4.7, features: ["Adjustable Strap", "Embroidered Logo", "UV Protection"] }
-  ];
+  // Ensure product has proper image arrays for display
+  const productImages = product.images?.length ? product.images : [product.image];
+  const comparisonProducts = products.filter(p => p.id !== product.id).slice(0, 2).map(p => ({
+    id: p.id,
+    name: p.name,
+    price: p.price,
+    image: p.image,
+    rating: 4.5 + Math.random() * 0.5, // Generate random ratings
+    features: p.features || ['Premium Quality', 'Custom Design', 'Fast Shipping']
+  }));
 
   useEffect(() => {
     // Simulate viewer count changes
@@ -150,7 +149,7 @@ const ProductDetail = () => {
             >
               <div className="relative overflow-hidden rounded-lg">
                 <img
-                  src={product.images[selectedImage]}
+                  src={productImages[selectedImage]}
                   alt={product.name}
                   className={`w-full h-96 lg:h-[500px] object-cover transition-all duration-700 ${
                     isZoomed ? 'scale-150' : 'scale-100'
@@ -185,7 +184,7 @@ const ProductDetail = () => {
 
             {/* Thumbnail Images */}
             <div className="flex space-x-2">
-              {product.images.map((image, index) => (
+              {productImages.map((image, index) => (
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
@@ -208,11 +207,11 @@ const ProductDetail = () => {
               <div className="flex items-center space-x-2 mb-4">
                 <div className="flex text-gold-400">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={16} fill={i < Math.floor(product.rating) ? "currentColor" : "none"} />
+                    <Star key={i} size={16} fill={i < 4 ? "currentColor" : "none"} />
                   ))}
                 </div>
-                <span className="text-gray-300">{product.rating}</span>
-                <span className="text-gray-500">({product.reviews} reviews)</span>
+                <span className="text-gray-300">4.8</span>
+                <span className="text-gray-500">(124 reviews)</span>
               </div>
 
               {/* Price */}
@@ -228,41 +227,45 @@ const ProductDetail = () => {
             </div>
 
             {/* Color Selection */}
-            <div>
-              <h3 className="text-white font-semibold mb-3">Color</h3>
-              <div className="flex space-x-3">
-                {product.colors.map((color) => (
-                  <button
-                    key={color}
-                    onClick={() => setSelectedColor(color)}
-                    className={`w-8 h-8 rounded-full border-2 transition-all duration-300 hover:scale-110 ${
-                      selectedColor === color ? 'border-gold-400 shadow-gold' : 'border-gray-600 hover:border-gold-400/50'
-                    }`}
-                    style={{ backgroundColor: color === 'gold' ? '#fbbf24' : color }}
-                  />
-                ))}
+            {product.colors && product.colors.length > 0 && (
+              <div>
+                <h3 className="text-white font-semibold mb-3">Color</h3>
+                <div className="flex space-x-3">
+                  {product.colors.map((color) => (
+                    <button
+                      key={color}
+                      onClick={() => setSelectedColor(color)}
+                      className={`w-8 h-8 rounded-full border-2 transition-all duration-300 hover:scale-110 ${
+                        selectedColor === color ? 'border-gold-400 shadow-gold' : 'border-gray-600 hover:border-gold-400/50'
+                      }`}
+                      style={{ backgroundColor: color === 'gold' ? '#fbbf24' : color }}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Size Selection */}
-            <div>
-              <h3 className="text-white font-semibold mb-3">Size</h3>
-              <div className="flex flex-wrap gap-2">
-                {product.sizes.map((size) => (
-                  <button
-                    key={size}
-                    onClick={() => setSelectedSize(size)}
-                    className={`px-4 py-2 border rounded-lg transition-all duration-300 hover:scale-105 ${
-                      selectedSize === size
-                        ? 'border-gold-400 bg-gold-400 text-premium-black shadow-gold'
-                        : 'border-gray-600 text-gray-300 hover:border-gold-400'
-                    }`}
-                  >
-                    {size}
-                  </button>
-                ))}
+            {product.sizes && product.sizes.length > 0 && (
+              <div>
+                <h3 className="text-white font-semibold mb-3">Size</h3>
+                <div className="flex flex-wrap gap-2">
+                  {product.sizes.map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => setSelectedSize(size)}
+                      className={`px-4 py-2 border rounded-lg transition-all duration-300 hover:scale-105 ${
+                        selectedSize === size
+                          ? 'border-gold-400 bg-gold-400 text-premium-black shadow-gold'
+                          : 'border-gray-600 text-gray-300 hover:border-gold-400'
+                      }`}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Quantity */}
             <div>
@@ -375,7 +378,7 @@ const ProductDetail = () => {
 
             {activeTab === 'features' && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {product.features.map((feature, index) => (
+                {(product.features || ['Premium Quality', 'Custom Design', 'Fast Shipping']).map((feature, index) => (
                   <div key={index} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gold-400/5 transition-colors">
                     <Zap className="text-gold-400" size={20} />
                     <span className="text-gray-300">{feature}</span>

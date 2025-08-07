@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from './ProductCard';
-import { useProductImages } from '../hooks/useProductImages';
+import { useAdmin } from '../contexts/AdminContext';
 import SpotlightCard from './ui/SpotlightCard';
 import MagicBento from './ui/MagicBento';
 import AnimatedList from './ui/AnimatedList';
@@ -15,7 +15,7 @@ import GlitchText from './animations/GlitchText';
 
 const FeaturedProducts = () => {
   const [activeCategory, setActiveCategory] = useState('all');
-  const { products: imageProducts } = useProductImages();
+  const { products } = useAdmin();
 
   const categories = [
     { id: 'all', label: 'All Products' },
@@ -24,13 +24,6 @@ const FeaturedProducts = () => {
     { id: 'home', label: 'Home & Living' },
     { id: 'art', label: 'Art & Design' }
   ];
-
-  // Use the actual product images from the hook
-  const products = imageProducts.slice(0, 12).map(product => ({
-    ...product,
-    originalPrice: Math.random() > 0.5 ? product.price * 1.3 : undefined,
-    isNew: Math.random() > 0.7
-  }));
 
   const filteredProducts = activeCategory === 'all' 
     ? products 

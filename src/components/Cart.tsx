@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { X, Plus, Minus, ShoppingBag, Truck } from 'lucide-react';
 import CheckoutFlow from './CheckoutFlow';
+import { useAdmin } from '../contexts/AdminContext';
 
 interface CartItem {
   id: number;
@@ -18,21 +19,24 @@ interface CartProps {
 }
 
 const Cart = ({ isOpen, onClose }: CartProps) => {
+  const { products } = useAdmin();
+  
+  // Demo cart items using real products
   const [cartItems, setCartItems] = useState<CartItem[]>([
     {
       id: 1,
-      name: "Premium Custom T-Shirt",
-      price: 299.99,
-      image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=200&q=80",
+      name: products[0]?.name || "Custom T-Shirt",
+      price: products[0]?.price || 299.99,
+      image: products[0]?.images?.[0] || "/products/tshirt-1.jpg",
       quantity: 2,
       size: "M",
       color: "black"
     },
     {
       id: 2,
-      name: "Artisan Coffee Mug",
-      price: 149.99,
-      image: "https://images.unsplash.com/photo-1514228742587-6b1558fcf93a?w=200&q=80",
+      name: products[1]?.name || "Custom Travel Mug",
+      price: products[1]?.price || 149.99,
+      image: products[1]?.images?.[0] || "/products/mug-1.jpg",
       quantity: 1
     }
   ]);

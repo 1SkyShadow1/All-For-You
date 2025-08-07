@@ -67,8 +67,8 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
       name: "Premium Custom T-Shirt",
       price: 299.99,
       originalPrice: 399.99,
-      image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&q=80",
-      images: ["https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80"],
+      image: "/products/tshirt-1.jpg",
+      images: ["/products/tshirt-detail-1.jpg", "/products/tshirt-detail-2.jpg", "/products/tshirt-detail-3.jpg"],
       category: "clothing",
       description: "Experience luxury with our premium custom t-shirt.",
       stock: 15,
@@ -80,13 +80,85 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
     },
     {
       id: 2,
-      name: "Artisan Coffee Mug",
+      name: "Custom Travel Mug",
       price: 149.99,
-      image: "https://images.unsplash.com/photo-1514228742587-6b1558fcf93a?w=500&q=80",
+      image: "/products/mug-1.jpg",
       category: "accessories",
       description: "Handcrafted ceramic mug perfect for your morning ritual.",
       stock: 25,
       isCustomizable: true
+    },
+    {
+      id: 3,
+      name: "Personalized Baseball Cap",
+      price: 199.99,
+      image: "/products/cap-1.jpg",
+      category: "clothing",
+      description: "Premium baseball cap with custom embroidery options.",
+      stock: 18,
+      isCustomizable: true,
+      features: ["Adjustable Strap", "Custom Logo", "UV Protection"],
+      colors: ["black", "white", "navy", "red"]
+    },
+    {
+      id: 4,
+      name: "Custom Embroidered Hoodie",
+      price: 599.99,
+      image: "/products/hoodie-1.jpg",
+      category: "clothing",
+      description: "Luxurious hoodie with premium embroidery and gold accents.",
+      stock: 12,
+      isCustomizable: true,
+      features: ["Cotton Blend", "Lined Hood", "Custom Embroidery"],
+      colors: ["black", "grey", "navy"],
+      sizes: ["S", "M", "L", "XL", "XXL"]
+    },
+    {
+      id: 5,
+      name: "Artisan Cutting Board",
+      price: 299.99,
+      image: "/products/cutting-board-1.jpg",
+      category: "home",
+      description: "Handcrafted wooden cutting board, perfect for custom engraving.",
+      stock: 8,
+      isCustomizable: true,
+      features: ["Solid Wood", "Food Safe Finish", "Custom Engraving"]
+    },
+    {
+      id: 6,
+      name: "Personalized Phone Case",
+      price: 99.99,
+      image: "/products/phone-case-1.jpg",
+      category: "accessories",
+      description: "Protective phone case with custom design options.",
+      stock: 30,
+      isCustomizable: true,
+      features: ["Drop Protection", "Custom Graphics", "Multiple Models"]
+    },
+    {
+      id: 7,
+      name: "Custom Canvas Art",
+      price: 0.00, // You'll provide the price
+      image: "/products/canvas-1.jpg",
+      images: ["/products/canvas-1.jpg", "/products/canvas-2.jpg", "/products/canvas-3.jpg", "/products/canvas-4.jpg"],
+      category: "art",
+      description: "Beautiful custom canvas artwork available in multiple designs and sizes.",
+      stock: 15,
+      isCustomizable: true,
+      features: ["High Quality Canvas", "Custom Design", "Multiple Sizes", "Gallery Wrap"],
+      sizes: ["Small (12x16)", "Medium (16x20)", "Large (20x24)", "Extra Large (24x36)"]
+    },
+    {
+      id: 8,
+      name: "Designer Tote Bag",
+      price: 0.00, // You'll provide the price
+      image: "/products/bag-1.jpg",
+      category: "accessories",
+      description: "Stylish and functional tote bag for everyday use.",
+      stock: 22,
+      isCustomizable: true,
+      features: ["Durable Material", "Custom Print", "Large Capacity"],
+      colors: ["black", "white", "navy", "brown"]
     }
   ]);
 

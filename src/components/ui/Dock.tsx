@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Home, Search, ShoppingCart, User, Heart, Settings } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface DockItem {
   icon: React.ReactNode;
@@ -14,14 +15,15 @@ interface DockProps {
 
 const Dock = ({ items, className = '' }: DockProps) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const navigate = useNavigate();
 
   const defaultItems: DockItem[] = [
-    { icon: <Home size={20} />, label: 'Home', onClick: () => {} },
-    { icon: <Search size={20} />, label: 'Search', onClick: () => {} },
+    { icon: <Home size={20} />, label: 'Home', onClick: () => navigate('/') },
+    { icon: <Search size={20} />, label: 'Shop', onClick: () => navigate('/shop') },
     { icon: <ShoppingCart size={20} />, label: 'Cart', onClick: () => {} },
-    { icon: <Heart size={20} />, label: 'Wishlist', onClick: () => {} },
-    { icon: <User size={20} />, label: 'Profile', onClick: () => {} },
-    { icon: <Settings size={20} />, label: 'Settings', onClick: () => {} },
+    { icon: <Heart size={20} />, label: 'Collections', onClick: () => navigate('/collections') },
+    { icon: <User size={20} />, label: 'Profile', onClick: () => navigate('/profile') },
+    { icon: <Settings size={20} />, label: 'Contact', onClick: () => navigate('/contact') },
   ];
 
   const dockItems = items || defaultItems;

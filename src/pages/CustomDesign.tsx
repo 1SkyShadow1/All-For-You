@@ -3,9 +3,11 @@ import { useState, useRef } from 'react';
 import { Upload, Download, Palette, Type, Image as ImageIcon, Undo, Redo } from 'lucide-react';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
+import { useAdmin } from '../contexts/AdminContext';
 
 const CustomDesign = () => {
-  const [selectedProduct, setSelectedProduct] = useState('tshirt');
+  const { products } = useAdmin();
+  const [selectedProduct, setSelectedProduct] = useState(1); // Use product ID as number
   const [selectedColor, setSelectedColor] = useState('black');
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [customText, setCustomText] = useState('Your Text Here');
@@ -14,10 +16,19 @@ const CustomDesign = () => {
   const [goldFoil, setGoldFoil] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const products = [
-    { id: 'tshirt', name: 'T-Shirt', image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80', price: 299.99 },
-    { id: 'mug', name: 'Coffee Mug', image: 'https://images.unsplash.com/photo-1514228742587-6b1558fcf93a?w=400&q=80', price: 149.99 },
-    { id: 'cap', name: 'Baseball Cap', image: 'https://images.unsplash.com/photo-1521369909029-2afed882baee?w=400&q=80', price: 199.99 }
+  // Use the first few products from AdminContext for customization
+  const customizableProducts = products.filter(p => p.isCustomizable).slice(0, 3).map(p => ({
+    id: p.id,
+    name: p.name,
+    image: p.image,
+    price: p.price
+  }));
+
+  // Fallback to default products if none are customizable
+  const displayProducts = customizableProducts.length > 0 ? customizableProducts : [
+    { id: 1, name: 'Custom T-Shirt', image: '/products/tshirt-1.jpg', price: 299.99 },
+    { id: 2, name: 'Travel Mug', image: '/products/mug-1.jpg', price: 149.99 },
+    { id: 3, name: 'Baseball Cap', image: '/products/cap-1.jpg', price: 199.99 }
   ];
 
   const colors = [
@@ -39,7 +50,7 @@ const CustomDesign = () => {
     }
   };
 
-  const currentProduct = products.find(p => p.id === selectedProduct);
+  const currentProduct = displayProducts.find(p => p.id === selectedProduct);
 
   return (
     <div className="min-h-screen bg-premium-black">
@@ -65,7 +76,7 @@ const CustomDesign = () => {
                 Select Product
               </h3>
               <div className="grid grid-cols-1 gap-3">
-                {products.map((product) => (
+                {displayProducts.map((product) => (
                   <button
                     key={product.id}
                     onClick={() => setSelectedProduct(product.id)}

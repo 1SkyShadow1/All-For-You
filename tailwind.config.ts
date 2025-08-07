@@ -135,7 +135,9 @@ export default {
 				'ripple': 'ripple 0.6s linear',
 				'particle-float': 'particle-float 8s ease-in-out infinite',
 				'fade-in-up': 'fade-in-up 0.6s ease-out',
-				'scale-in': 'scale-in 0.4s ease-out'
+				'scale-in': 'scale-in 0.4s ease-out',
+				'spin-slow': 'spin 30s linear infinite',
+				'spin-slow-reverse': 'spin 30s linear infinite reverse'
 			},
 			backgroundImage: {
 				'gold-gradient': 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%)',

@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SplitText from './animations/SplitText';
 import BlurText from './animations/BlurText';
@@ -22,22 +22,31 @@ const Hero = () => {
     {
       title: "Premium Lifestyle",
       subtitle: "Curated Collection",
-      description: "Discover our exclusive range of custom designs and artisanal products",
-      image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&q=80"
+      description: "Discover our exclusive range of custom apparel, accessories, and artisanal products",
+      image: "/products/hero-1.jpg"
     },
     {
       title: "Custom Creations",
       subtitle: "Made Just for You",
-      description: "Personalize shirts, mugs, caps and more with your unique style",
-      image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=1200&q=80"
+      description: "Personalize t-shirts, hoodies, mugs, caps and phone cases with your unique style",
+      image: "/products/hero-2.jpg"
     },
     {
       title: "Artisan Crafted",
       subtitle: "Premium Quality",
-      description: "Hand-selected cutting boards and original artworks by local artisans",
-      image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&q=80"
+      description: "Hand-selected cutting boards, travel mugs and custom accessories by local artisans",
+      image: "/products/hero-3.jpg"
     }
   ];
+
+  // Auto-advance slides
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 6000); // Change slide every 6 seconds
+
+    return () => clearInterval(interval);
+  }, [slides.length]);
 
   return (
     <section className="relative h-screen flex items-center overflow-hidden">
@@ -83,7 +92,13 @@ const Hero = () => {
               <TextPressure text={slides[currentSlide].title} className="text-white" />
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 mb-8 animate-delay-3">
-              <DecryptedText text={slides[currentSlide].description} />
+              <DecryptedText 
+                key={`decrypt-${currentSlide}`}
+                text={slides[currentSlide].description} 
+                speed={25}
+                autoStart={true}
+                delay={1200}
+              />
             </p>
             <div className="flex flex-col sm:flex-row gap-4 animate-delay-4">
               <MagnetButton className="btn-gold">
@@ -119,22 +134,6 @@ const Hero = () => {
           </button>
         ))}
       </div>
-
-      {/* Auto slide change */}
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-            setTimeout(() => {
-              const indicators = document.querySelectorAll('[data-slide]');
-              let current = 0;
-              setInterval(() => {
-                current = (current + 1) % 3;
-                if (indicators[current]) indicators[current].click();
-              }, 5000);
-            }, 1000);
-          `,
-        }}
-      />
     </section>
   );
 };
